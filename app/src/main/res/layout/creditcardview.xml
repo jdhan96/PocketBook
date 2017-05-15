@@ -1,0 +1,279 @@
+<android.support.v7.widget.CardView android:id="@+id/creditCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/clickableCard"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/blankCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/creditcard" />
+                <TextView
+                    android:id="@+id/cardName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/blankCard"
+                    android:layout_alignTop="@+id/blankCard"
+                    android:layout_alignRight="@+id/blankCard"
+                    android:layout_alignBottom="@+id/blankCard"
+                    android:layout_marginTop="30dp"
+                    android:textSize="30sp"
+                    android:gravity="center_horizontal"
+                    android:text="Justin Han"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/blankCard"
+                    android:layout_alignTop="@+id/blankCard"
+                    android:layout_alignRight="@+id/blankCard"
+                    android:layout_alignBottom="@+id/blankCard"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="40dp"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:text="XXXX XXXX XXXX"/>
+                <TextView
+                    android:id="@+id/cardNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/blankCard"
+                    android:layout_alignTop="@+id/blankCard"
+                    android:layout_alignRight="@+id/blankCard"
+                    android:layout_alignBottom="@+id/blankCard"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="95dp"
+                    android:textSize="20sp"
+                    android:gravity="center_vertical|right"
+                    android:text="1920"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:id="@+id/descriptView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/toolbarButtons"
+                    android:orientation="horizontal"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/editButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/checkButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/cancelButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <TableLayout
+                    android:id="@+id/CardTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Card Name: "/>
+                        <EditText
+                            android:id="@+id/EditCardName"
+                            android:focusable="false"
+                            android:backgroundTint="@android:color/transparent"
+                            android:inputType="text"
+                            android:cursorVisible="false"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name of Credit Card: "/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name on Card: "/>
+                        <EditText
+                            android:id="@+id/EditCardUser"
+                            android:focusable="false"
+                            android:inputType="text"
+                            android:cursorVisible="false"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name of Credit Card: "/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Card Number: "/>
+                        <EditText
+                            android:id="@+id/EditCardNum"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:text="Name of Credit Card: "/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Exp Date: "/>
+                        <EditText
+                            android:layout_weight=".7"
+                            android:id="@+id/EditMonth"
+                            android:backgroundTint="@android:color/transparent"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Jul"/>
+
+                        <TextView
+                            android:text="/"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/EditYear"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:text="1996"/>
+                        <TextView
+                            android:layout_weight="4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Security Code: "/>
+                        <EditText
+                            android:id="@+id/EditSecurityCode"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+                            android:layout_height="wrap_content"
+                            android:text="Name of Credit Card: "/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Zip Code: "/>
+                        <EditText
+                            android:id="@+id/EditZipCode"
+                            android:focusable="false"
+                            android:cursorVisible="false"
+                            android:inputType="number"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name of Credit Card: "/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
