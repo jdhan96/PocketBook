@@ -21,16 +21,15 @@ import com.pocketwork.justinhan.pocketbook.R;
  */
 @SuppressLint("InflateParams")
 public class MonthYearPicker {
+    private static final Calendar instance = Calendar.getInstance();
 
-    private static int MIN_YEAR = 1970;
+    private static int MIN_YEAR = instance.get(Calendar.YEAR);
 
     private static final int MAX_YEAR = 2099;
 
-    private static final String[] PICKER_DISPLAY_MONTHS_NAMES = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
-            "Nov", "Dec" };
+    private static final String[] MONTHS = new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+            "11", "12" };
 
-    private static final String[] MONTHS = new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September",
-            "October", "November", "December" };
 
     private View view;
     private Activity activity;
@@ -63,7 +62,6 @@ public class MonthYearPicker {
         this.build(-1, -1, positiveButtonListener, negativeButtonListener);
     }
 
-    private int currentYear;
 
     private int currentMonth;
 
@@ -86,8 +84,6 @@ public class MonthYearPicker {
 
         final Calendar instance = Calendar.getInstance();
         currentMonth = instance.get(Calendar.MONTH);
-        currentYear = instance.get(Calendar.YEAR);
-        MIN_YEAR = currentYear;
 
 
         if (selectedMonth > 11 || selectedMonth < -1) {
@@ -95,7 +91,7 @@ public class MonthYearPicker {
         }
 
         if (selectedYear < MIN_YEAR || selectedYear > MAX_YEAR) {
-            selectedYear = currentYear;
+            selectedYear = MIN_YEAR;
         }
 
         if (selectedMonth == -1) {
@@ -103,14 +99,14 @@ public class MonthYearPicker {
         }
 
         if (selectedYear == -1) {
-            selectedYear = currentYear;
+            selectedYear = MIN_YEAR;
         }
 
         builder = new AlertDialog.Builder(activity);
         builder.setView(view);
 
         monthNumberPicker = (NumberPicker) view.findViewById(R.id.monthNumberPicker);
-        monthNumberPicker.setDisplayedValues(PICKER_DISPLAY_MONTHS_NAMES);
+        monthNumberPicker.setDisplayedValues(MONTHS);
 
         monthNumberPicker.setMinValue(0);
         monthNumberPicker.setMaxValue(MONTHS.length - 1);
@@ -156,19 +152,10 @@ public class MonthYearPicker {
     /**
      * Gets the selected month name.
      *
-     * @return the selected month name
-     */
-    public String getSelectedMonthName() {
-        return MONTHS[monthNumberPicker.getValue()];
-    }
-
-    /**
-     * Gets the selected month name.
-     *
      * @return the selected month short name i.e Jan, Feb ...
      */
     public String getSelectedMonthShortName() {
-        return PICKER_DISPLAY_MONTHS_NAMES[monthNumberPicker.getValue()];
+        return MONTHS[monthNumberPicker.getValue()];
     }
 
     /**
@@ -184,11 +171,6 @@ public class MonthYearPicker {
      * Gets the current year.
      *
      * @return the current year
-     */
-    public int getCurrentYear() {
-        return currentYear;
-    }
-
     /**
      * Gets the current month.
      *

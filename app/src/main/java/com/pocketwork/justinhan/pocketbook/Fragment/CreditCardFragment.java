@@ -67,7 +67,7 @@ public class CreditCardFragment extends Fragment {
         addNew.setText("Cards");
         initData();
         LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
-        adapter = new RecyclerAdapter(walletView, cards);
+        adapter = new RecyclerAdapter(walletView, cards, getActivity());
         walletView.setAdapter(adapter);
         adapter.onAttachedToRecyclerView(walletView);
         walletView.setLayoutManager(linearlayout);
@@ -102,7 +102,7 @@ public class CreditCardFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 month.setText(myp.getSelectedMonth() + "");
-                year.setText(myp.getSelectedYear() + "");
+                year.setText(Integer.toString(myp.getSelectedYear()).substring(2));
             }
         }, null);
 
@@ -143,9 +143,25 @@ public class CreditCardFragment extends Fragment {
                         dialog.dismiss();
                     } else {
                         Toast.makeText(v.getContext(), "The length of the card number has to equal 16!!!", Toast.LENGTH_SHORT).show();
+                        cardNum.setError("Has to equal 16!");
                     }
                 } else {
                     Toast.makeText(v.getContext(), "Make sure all fields are entered!!!", Toast.LENGTH_SHORT).show();
+                    if(cardName.getText().equals("")) {
+                        cardName.setError("Required");
+                    } else if(Name.getText().equals("")) {
+                        Name.setError("Required");
+                    } else if(cardNum.getText().equals("")) {
+                        cardNum.setError("Required");
+                    } else if(month.getText().equals("")) {
+                        month.setError("Required");
+                    } else if(year.getText().equals("")) {
+                        year.setError("Required");
+                    } else if(securityCode.getText().equals("")) {
+                        securityCode.setError("Required");
+                    } else if(zipCode.getText().equals("")) {
+                        zipCode.setError("Required");
+                    }
                 }
             }
         });
@@ -170,57 +186,8 @@ public class CreditCardFragment extends Fragment {
 
     private void initData() {
         cards = new ArrayList<>();
-        cards.add(new CreditCard("Justin Han", "Justin's Credit Card", 07,1732, "1234567891234567", 903, 90006));
-        cards.add(new CreditCard("Heidi Han", "Heidi's Credit Card", 06,1237, "1234567891234567", 903, 90006));
-        cards.add(new CreditCard("Jennifer Han", "Jennifer's Credit Card", 10,1327, "1234567891234567", 903, 90006));
+        cards.add(new CreditCard("Justin Han", "Justin's Credit Card", 07,32, "1234567891234567", 903, 90006));
+        cards.add(new CreditCard("Heidi Han", "Heidi's Credit Card", 06,37, "1234567891234567", 903, 90006));
+        cards.add(new CreditCard("Jennifer Han", "Jennifer's Credit Card", 10,27, "1234567891234567", 903, 90006));
     }
-
-//    public static class DatePickerFragment extends DialogFragment
-//            implements DatePickerDialog.OnDateSetListener {
-//
-//        @Override
-//        public Dialog onCreateDialog(Bundle savedInstanceState) {
-//            // Use the current date as the default date in the picker
-//            final Calendar c = Calendar.getInstance();
-//            int year = c.get(Calendar.YEAR);
-//            int month = c.get(Calendar.MONTH);
-//            int day = c.get(Calendar.DAY_OF_MONTH);
-//
-//            DatePickerDialog test = new DatePickerDialog(getActivity(), null , year, month, day);
-//
-//            try {
-//                java.lang.reflect.Field[] datePickerDialogFields = test.getClass().getDeclaredFields();
-//                for (java.lang.reflect.Field datePickerDialogField : datePickerDialogFields) {
-//                    if (datePickerDialogField.getName().equals("mDatePicker")) {
-//                        datePickerDialogField.setAccessible(true);
-//                        DatePicker datePicker = (DatePicker) datePickerDialogField.get(test);
-//                        java.lang.reflect.Field[] datePickerFields = datePickerDialogField.getType().getDeclaredFields();
-//                        for (java.lang.reflect.Field datePickerField : datePickerFields) {
-//                            Log.i("test", datePickerField.getName());
-//                            if ("mDaySpinner".equals(datePickerField.getName())) {
-//                                datePickerField.setAccessible(true);
-//                                Object dayPicker = datePickerField.get(datePicker);
-//                                ((View) dayPicker).setVisibility(View.GONE);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            catch (Exception ex) {
-//            }
-//
-//            // Create a new instance of DatePickerDialog and return it
-//            return test;
-//        }
-//
-//        public void onDateSet(DatePicker view, int year, int month, int day) {
-//            // Do something with the date chosen by the user
-//        }
-//    }
-//
-//    public void showDatePickerDialog(View v) {
-//        FragmentManager fragmentmanager = getFragmentManager();
-//        DialogFragment newFragment = new DatePickerFragment();
-//        newFragment.show(fragmentmanager, "datePicker");
-//    }
 }

@@ -1,6 +1,7 @@
 package com.pocketwork.justinhan.pocketbook.Adapter;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -12,13 +13,17 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pocketwork.justinhan.pocketbook.Data.CreditCard;
 import com.pocketwork.justinhan.pocketbook.Helper.ItemTouchHelperAdapter;
+import com.pocketwork.justinhan.pocketbook.Helper.MonthYearPicker;
 import com.pocketwork.justinhan.pocketbook.R;
 
 import java.util.Collections;
@@ -26,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by justinhan on 5/8/17.
@@ -33,11 +39,13 @@ import butterknife.ButterKnife;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CreditCardHolder> implements ItemTouchHelperAdapter{
     private List<CreditCard> cards;
     private RecyclerView viewer;
+    private Activity activity;
     private int selected = 0;
 
-    public RecyclerAdapter(RecyclerView viewer, List<CreditCard> cards) {
+    public RecyclerAdapter(RecyclerView viewer, List<CreditCard> cards, Activity activity) {
         this.viewer = viewer;
         this.cards = cards;
+        this.activity = activity;
     }
 
     @Override
@@ -53,7 +61,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Credit
 
         CreditCard card = cards.get(position);
         holder.cardName.setText(card.getName());
-        holder.cardNum.setText(card.getLast4Digit());
+        holder.cardNum.setText("XXXX XXXX XXXX " + card.getLast4Digit());
 
 
         holder.nameofCard.setText(card.getName());
@@ -143,10 +151,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Credit
         EditText zipCode;
         @BindView(R.id.descriptView)
         LinearLayout descript;
+        @BindView(R.id.editButton)
+        ImageButton editButton;
+        @BindView(R.id.checkButton)
+        ImageButton checkButton;
+        @BindView(R.id.cancelButton)
+        ImageButton cancelButton;
 
         private int originalHeight = 0;
         public boolean toggle = false;
-
+        private boolean editable = false;
         public CreditCardHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -154,7 +168,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Credit
                 @Override
                 public void onClick(View v) {
                         LinearLayoutManager linear;
-                        if (selected == 0 || toggle == true) {
+                        if ((selected == 0 || toggle) && !editable) {
                             int position = getAdapterPosition();
                             if (originalHeight == 0) {
                                 originalHeight = clickableCard.getHeight();
@@ -226,6 +240,168 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Credit
 
             });
         }
+        @OnClick(R.id.deleteButton)
+        void onDelete() {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(viewer.getContext());
+            builder.setTitle("Delete")
+                    .setMessage("Are you sure you want to delete? ")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            removeItem(getAdapterPosition());
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            notifyDataSetChanged();
+                        }
+                    });
+
+            builder.create().show();
+        }
+
+        @OnClick(R.id.editButton)
+        void onEdit() {
+            editable = true;
+            editButton.setVisibility(View.GONE);
+            checkButton.setVisibility(View.VISIBLE);
+            cancelButton.setVisibility(View.VISIBLE);
+            setEditable(true);
+            final MonthYearPicker myp = new MonthYearPicker(activity);
+            myp.build(new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    month.setText(myp.getSelectedMonth() + "");
+                    year.setText(Integer.toString(myp.getSelectedYear()).substring(2));
+                }
+            }, null);
+
+            month.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    myp.show();
+                }
+            });
+
+            year.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    myp.show();
+                }
+            });
+        }
+        @OnClick(R.id.cancelButton)
+        void onCancel() {
+            editable = false;
+            editButton.setVisibility(View.VISIBLE);
+            checkButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
+            setEditable(false);
+
+            month.setOnClickListener(null);
+            year.setOnClickListener(null);
+        }
+        @OnClick(R.id.checkButton)
+        void onConfirm() {
+
+            final String name = nameofCard.getText().toString();
+            final String user = nameonCard.getText().toString();
+            final String num = cardNumber.getText().toString();
+            final String security = securityCode.getText().toString();
+            final String zip = zipCode.getText().toString();
+            final String mon = month.getText().toString();
+            final String yr = year.getText().toString();
+
+            if(!name.equals("") && !user.equals("") &&
+                    !num.equals("") && !security.equals("") &&
+                    !zip.equals("") && !mon.equals("") &&
+                    !yr.equals("")) {
+                if(num.length() == 16) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(viewer.getContext());
+                    builder.setTitle("Confirm")
+                            .setMessage("Are you sure you want to change data? ")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    CreditCard newCard = cards.get(getAdapterPosition());
+                                    newCard.setName(name);
+                                    newCard.setCardNum(num);
+                                    newCard.setNameonCard(user);
+                                    newCard.setMonth(Integer.parseInt(mon));
+                                    newCard.setYear(Integer.parseInt(yr));
+                                    newCard.setSecurityCode(Integer.parseInt(security));
+                                    newCard.setZipCode(Integer.parseInt(zip));
+
+                                    notifyItemChanged(getAdapterPosition());
+
+                                    editButton.setVisibility(View.VISIBLE);
+                                    checkButton.setVisibility(View.GONE);
+                                    cancelButton.setVisibility(View.GONE);
+                                    setEditable(false);
+                                    month.setOnClickListener(null);
+                                    year.setOnClickListener(null);
+                                    editable = false;
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    notifyDataSetChanged();
+                                }
+                            });
+
+                    builder.create().show();
+
+                } else {
+                    Toast.makeText(itemView.getContext(), "The length of the card number has to equal 16!!!", Toast.LENGTH_SHORT).show();
+                    cardNumber.setError("Has to equal 16!");
+                }
+            } else {
+                Toast.makeText(itemView.getContext(), "Make sure all fields are entered!!!", Toast.LENGTH_SHORT).show();
+                if(nameofCard.getText().equals("")) {
+                    nameofCard.setError("Required");
+                } else if(nameonCard.getText().equals("")) {
+                    nameonCard.setError("Required");
+                } else if(cardNumber.getText().equals("")) {
+                    cardNumber.setError("Required");
+                } else if(month.getText().equals("")) {
+                    month.setError("Required");
+                } else if(year.getText().equals("")) {
+                    year.setError("Required");
+                } else if(securityCode.getText().equals("")) {
+                    securityCode.setError("Required");
+                } else if(zipCode.getText().equals("")) {
+                    zipCode.setError("Required");
+                }
+            }
+        }
+
+        public void setEditable(boolean set) {
+            nameofCard.setFocusable(set);
+            nameofCard.setFocusableInTouchMode(set);
+            nameofCard.setCursorVisible(set);
+            nameonCard.setFocusable(set);
+            nameonCard.setCursorVisible(set);
+            nameonCard.setFocusableInTouchMode(set);
+            cardNumber.setFocusable(set);
+            cardNumber.setFocusableInTouchMode(set);
+            cardNumber.setCursorVisible(set);
+            month.setFocusableInTouchMode(set);
+            month.setFocusable(set);
+            month.setCursorVisible(set);
+            year.setFocusableInTouchMode(set);
+            year.setFocusable(set);
+            year.setCursorVisible(set);
+            securityCode.setFocusable(set);
+            securityCode.setFocusableInTouchMode(set);
+            securityCode.setCursorVisible(set);
+            zipCode.setFocusable(set);
+            zipCode.setFocusableInTouchMode(set);
+            zipCode.setCursorVisible(set);
+        }
+
 
     }
 
