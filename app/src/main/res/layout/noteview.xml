@@ -1,0 +1,116 @@
+<android.support.v7.widget.CardView android:id="@+id/NoteView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/clickableCard"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/blankCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/creditcard" />
+                <TextView
+                    android:id="@+id/noteName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/blankCard"
+                    android:layout_alignTop="@+id/blankCard"
+                    android:layout_alignRight="@+id/blankCard"
+                    android:layout_alignBottom="@+id/blankCard"
+                    android:layout_marginTop="30dp"
+                    android:textSize="30sp"
+                    android:gravity="center_horizontal"
+                    android:text="Justin Han"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:id="@+id/descriptView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/toolbarButtons"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageButton
+                        android:id="@+id/deleteButton"
+                        android:src="@drawable/ic_delete_black_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                        android:id="@+id/editButton"
+                        android:src="@drawable/ic_mode_edit_black_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                        <ImageButton
+                            android:visibility="gone"
+                            android:src="@drawable/ic_check_black_24dp"
+                            android:id="@+id/checkButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageButton
+                            android:visibility="gone"
+                            android:src="@drawable/ic_cancel_black_24dp"
+                            android:id="@+id/cancelButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+                        <EditText
+                            android:id="@+id/EditNoteName"
+                            android:focusable="false"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@android:color/transparent"
+                            android:inputType="textNoSuggestions"
+                            android:cursorVisible="false"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name of Note "/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />\
+                        <EditText
+                            android:id="@+id/NoteContent"
+                            android:focusable="false"
+                            android:inputType="textNoSuggestions"
+                            android:cursorVisible="false"
+                            android:backgroundTint="@android:color/transparent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Content: "/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:layout_weight="1"
+                            android:background="#FF909090"
+                            android:padding="2dip" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>

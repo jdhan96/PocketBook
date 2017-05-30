@@ -1,5 +1,7 @@
 package com.pocketwork.justinhan.pocketbook.Data;
 
+import android.util.Log;
+
 /**
  * Created by justinhan on 5/12/17.
  */
@@ -80,4 +82,5 @@ public class CreditCard{
     public void setNameonCard(String nameonCard) {
         this.nameonCard = nameonCard;
     }
+
 }

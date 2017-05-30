@@ -98,15 +98,12 @@
                             android:padding="2dip" />
                     </TableRow>
                     <TableRow>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Card Name: "/>
+                        <TextView />
                         <EditText
                             android:id="@+id/EditCardName"
                             android:focusable="false"
                             android:backgroundTint="@android:color/transparent"
-                            android:inputType="text"
+                            android:inputType="textNoSuggestions"
                             android:cursorVisible="false"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -131,7 +128,7 @@
                         <EditText
                             android:id="@+id/EditCardUser"
                             android:focusable="false"
-                            android:inputType="text"
+                            android:inputType="textNoSuggestions"
                             android:cursorVisible="false"
                             android:backgroundTint="@android:color/transparent"
                             android:layout_width="wrap_content"

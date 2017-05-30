@@ -146,7 +146,7 @@ public class MonthYearPicker {
      * @return the selected month
      */
     public int getSelectedMonth() {
-        return monthNumberPicker.getValue();
+        return monthNumberPicker.getValue()+1;
     }
 
     /**

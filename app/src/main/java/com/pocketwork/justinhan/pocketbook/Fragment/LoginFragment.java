@@ -20,8 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pocketwork.justinhan.pocketbook.Adapter.CreditRecyclerAdapter;
+import com.pocketwork.justinhan.pocketbook.Adapter.LoginRecyclerAdapter;
 import com.pocketwork.justinhan.pocketbook.Data.CreditCard;
 import com.pocketwork.justinhan.pocketbook.Data.Login;
+import com.pocketwork.justinhan.pocketbook.Data.Note;
 import com.pocketwork.justinhan.pocketbook.Helper.ItemTouchHelperCallback;
 import com.pocketwork.justinhan.pocketbook.Helper.MonthYearPicker;
 import com.pocketwork.justinhan.pocketbook.R;
@@ -32,24 +34,23 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import io.paperdb.Paper;
+
 /**
  * Created by justinhan on 5/10/17.
  */
 
-public class CreditCardFragment extends Fragment {
+public class LoginFragment extends Fragment {
     @BindView(R.id.walletRecyclerView)
     RecyclerView walletView;
     @BindView(R.id.AddNew)
     TextView addNew;
 
-    private MonthYearPicker myp;
-    private CreditRecyclerAdapter adapter;
+    private LoginRecyclerAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.creditcard_fragment, container, false);
+        return inflater.inflate(R.layout.login_fragment, container, false);
 
     }
 
@@ -57,7 +58,7 @@ public class CreditCardFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        addNew.setText("Cards");
+        addNew.setText("Logins");
         initData();
     }
 
@@ -70,36 +71,9 @@ public class CreditCardFragment extends Fragment {
         dialog.setTitle("New Card");
 
         final EditText cardName = (EditText) dialog.findViewById(R.id.EditCardName);
-        final EditText Name = (EditText) dialog.findViewById(R.id.EditCardUser);
-        final EditText cardNum = (EditText) dialog.findViewById(R.id.EditCardNum);
-        final EditText securityCode = (EditText) dialog.findViewById(R.id.EditSecurityCode);
-        final EditText zipCode = (EditText) dialog.findViewById(R.id.EditZipCode);
-        final EditText month = (EditText) dialog.findViewById(R.id.EditMonth);
-        final EditText year = (EditText) dialog.findViewById(R.id.EditYear);
+        final EditText editLogin = (EditText) dialog.findViewById(R.id.editLogin);
+        final EditText editPassword = (EditText) dialog.findViewById(R.id.editPassword);
 
-        myp = new MonthYearPicker(getActivity());
-        myp.build(new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                month.setText(myp.getSelectedMonth() + "");
-                year.setText(Integer.toString(myp.getSelectedYear()).substring(2));
-            }
-        }, null);
-
-        month.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myp.show();
-            }
-        });
-
-        year.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myp.show();
-            }
-        });
 
         Button addButton = (Button) dialog.findViewById(R.id.addButton);
         // if button is clicked, close the custom dialog
@@ -107,55 +81,29 @@ public class CreditCardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String name = cardName.getText().toString();
-                String user = Name.getText().toString();
-                String num = cardNum.getText().toString();
-                String security = securityCode.getText().toString();
-                String zip = zipCode.getText().toString();
-                String mon = month.getText().toString();
-                String yr = year.getText().toString();
+                String user = editLogin.getText().toString();
+                String num = editPassword.getText().toString();
 
-                if(!name.equals("") && !user.equals("") &&
-                        !num.equals("") && !security.equals("") &&
-                        !zip.equals("") && !mon.equals("") &&
-                        !yr.equals("")) {
-                    if(num.length() == 16) {
-                        if(adapter == null) {
-                            List<CreditCard> cards = new ArrayList<>();
-                            cards.add(new CreditCard(name,user, Integer.parseInt(mon), Integer.parseInt(yr), num,
-                                    Integer.parseInt(security), Integer.parseInt(zip)));
-                            Paper.book().write("creditCards", cards);
-                            initData();
-                        } else {
-                            adapter.addItem(new CreditCard(name,user, Integer.parseInt(mon), Integer.parseInt(yr), num,
-                                    Integer.parseInt(security), Integer.parseInt(zip)));
-                        }
-                        dialog.dismiss();
+                if(!name.equals("") && !user.equals("") && !num.equals("")) {
+                    if(adapter == null) {
+                        List<Login> cards = new ArrayList<>();
+                        cards.add(new Login(name, user, num));
+                        Paper.book().write("Logins", cards);
+                        initData();
                     } else {
-                        Toast.makeText(v.getContext(), "The length of the card number has to equal 16!!!", Toast.LENGTH_SHORT).show();
-                        cardNum.setError("Has to equal 16!");
+                        adapter.addItem(new Login(name, user, num));
                     }
+                    dialog.dismiss();
                 } else {
                     Toast.makeText(v.getContext(), "Make sure all fields are entered!!!", Toast.LENGTH_SHORT).show();
                     if(TextUtils.isEmpty(name)) {
                         cardName.setError("Required");
                     }
                     if(TextUtils.isEmpty(user)) {
-                        Name.setError("Required");
+                        editLogin.setError("Required");
                     }
                     if(TextUtils.isEmpty(num)) {
-                        cardNum.setError("Required");
-                    }
-                    if(TextUtils.isEmpty(mon)) {
-                        month.setError("Required");
-                    }
-                    if(TextUtils.isEmpty(yr)) {
-                        year.setError("Required");
-                    }
-                    if(TextUtils.isEmpty(security)) {
-                        securityCode.setError("Required");
-                    }
-                    if(TextUtils.isEmpty(zip)) {
-                        zipCode.setError("Required");
+                        editPassword.setError("Required");
                     }
                 }
             }
@@ -175,12 +123,13 @@ public class CreditCardFragment extends Fragment {
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
+
     private void initData() {
-        List<CreditCard> cards = Paper.book().read("creditCards");
+        List<Login> cards = Paper.book().read("Logins");
 
         if(cards != null) {
             LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
-            adapter = new CreditRecyclerAdapter(walletView, cards, getActivity());
+            adapter = new LoginRecyclerAdapter(walletView, cards);
             walletView.setAdapter(adapter);
             adapter.onAttachedToRecyclerView(walletView);
             walletView.setLayoutManager(linearlayout);

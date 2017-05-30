@@ -6,46 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.pocketwork.justinhan.pocketbook.MainActivity">
-     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ID"/>
+    <include layout="@layout/title_toolbar"/>
     <FrameLayout
-        android:visibility="gone"
-        android:id="@+id/IDcontent"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Coupon"/>
-    <FrameLayout
-        android:visibility="gone"
-        android:id="@+id/CouponContent"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
-    <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Credit Card"/>
-    <fragment
         android:id="@+id/content"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:name="com.pocketwork.justinhan.pocketbook.Fragment.CreditCardFragment"/>
-
-
+        android:layout_height="0dp"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/drawer_item"
+        app:itemTextColor="@color/drawer_item"
         app:menu="@menu/navigation" />
 
 </LinearLayout>
