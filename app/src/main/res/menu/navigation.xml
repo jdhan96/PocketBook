@@ -16,4 +16,8 @@
         android:icon="@drawable/ic_face_black_24dp"
         android:title="Logins" />
 
+    <item
+        android:id="@+id/cloud"
+        android:icon="@drawable/ic_cloud_black_24dp"
+        android:title="Cloud"/>
 </menu>

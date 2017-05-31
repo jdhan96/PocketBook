@@ -7,10 +7,13 @@
     <TextView
         android:gravity="center"
         android:textSize="40sp"
+        android:textColor="@color/white"
+        android:background="@color/iconTint"
         android:text="New Note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TableLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/CardTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,6 +30,7 @@
         </TableRow>
         <TableRow>
             <TextView
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Note Name: "/>

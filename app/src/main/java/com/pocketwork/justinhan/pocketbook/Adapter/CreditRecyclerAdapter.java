@@ -78,7 +78,6 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
         holder.month.setText(card.getMonth() +"");
         holder.year.setText(card.getYear() +"");
         holder.securityCode.setText(card.getSecurityCode() +"");
-        holder.zipCode.setText(card.getZipCode() +"");
 
     }
     public void addItem(CreditCard card) {
@@ -91,6 +90,7 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
     }
     public void removeItem(int position) {
         cards.remove(position);
+        Paper.book().write("creditCards", cards);
         notifyItemRemoved(position);
     }
 
@@ -110,6 +110,7 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
                 Collections.swap(cards, i, i - 1);
             }
         }
+        Paper.book().write("creditCards", cards);
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -154,8 +155,6 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
         EditText year;
         @BindView(R.id.EditSecurityCode)
         EditText securityCode;
-        @BindView(R.id.EditZipCode)
-        EditText zipCode;
         @BindView(R.id.descriptView)
         LinearLayout descript;
         @BindView(R.id.editButton)
@@ -320,13 +319,12 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
             final String user = nameonCard.getText().toString();
             final String num = cardNumber.getText().toString();
             final String security = securityCode.getText().toString();
-            final String zip = zipCode.getText().toString();
             final String mon = month.getText().toString();
             final String yr = year.getText().toString();
 
             if(!name.equals("") && !user.equals("") &&
                     !num.equals("") && !security.equals("") &&
-                    !zip.equals("") && !mon.equals("") &&
+                    !mon.equals("") &&
                     !yr.equals("")) {
                 if(num.length() == 16) {
 
@@ -336,7 +334,6 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
                     cards.get(getAdapterPosition()).setMonth(Integer.parseInt(mon));
                     cards.get(getAdapterPosition()).setYear(Integer.parseInt(yr));
                     cards.get(getAdapterPosition()).setSecurityCode(Integer.parseInt(security));
-                    cards.get(getAdapterPosition()).setZipCode(Integer.parseInt(zip));
 
                     notifyDataSetChanged();
 
@@ -365,8 +362,6 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
                     year.setError("Required");
                 } else if(securityCode.getText().equals("")) {
                     securityCode.setError("Required");
-                } else if(zipCode.getText().equals("")) {
-                    zipCode.setError("Required");
                 }
             }
         }
@@ -384,9 +379,6 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
             securityCode.setFocusable(set);
             securityCode.setFocusableInTouchMode(set);
             securityCode.setCursorVisible(set);
-            zipCode.setFocusable(set);
-            zipCode.setFocusableInTouchMode(set);
-            zipCode.setCursorVisible(set);
         }
 
 

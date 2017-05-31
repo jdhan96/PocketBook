@@ -10,6 +10,9 @@ public class Note{
     private String note;
     private String name;
 
+    public Note() {
+
+    }
     public Note(String name, String note) {
         this.name = name;
         this.note = note;

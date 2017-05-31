@@ -67,8 +67,8 @@ public class LoginFragment extends Fragment {
         // custom dialog
 
         final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.newcredit_card);
-        dialog.setTitle("New Card");
+        dialog.setContentView(R.layout.new_login);
+        dialog.setTitle("New Login");
 
         final EditText cardName = (EditText) dialog.findViewById(R.id.EditCardName);
         final EditText editLogin = (EditText) dialog.findViewById(R.id.editLogin);
@@ -85,14 +85,7 @@ public class LoginFragment extends Fragment {
                 String num = editPassword.getText().toString();
 
                 if(!name.equals("") && !user.equals("") && !num.equals("")) {
-                    if(adapter == null) {
-                        List<Login> cards = new ArrayList<>();
-                        cards.add(new Login(name, user, num));
-                        Paper.book().write("Logins", cards);
-                        initData();
-                    } else {
-                        adapter.addItem(new Login(name, user, num));
-                    }
+                    adapter.addItem(new Login(name, user, num));
                     dialog.dismiss();
                 } else {
                     Toast.makeText(v.getContext(), "Make sure all fields are entered!!!", Toast.LENGTH_SHORT).show();
@@ -125,22 +118,20 @@ public class LoginFragment extends Fragment {
 
 
     private void initData() {
-        List<Login> cards = Paper.book().read("Logins");
+        List<Login> cards = Paper.book().read("Logins", new ArrayList<Login>());
 
-        if(cards != null) {
-            LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
-            adapter = new LoginRecyclerAdapter(walletView, cards);
-            walletView.setAdapter(adapter);
-            adapter.onAttachedToRecyclerView(walletView);
-            walletView.setLayoutManager(linearlayout);
-            walletView.setHasFixedSize(true);
-            DividerItemDecoration decor = new DividerItemDecoration(walletView.getContext(), linearlayout.getOrientation());
-            walletView.addItemDecoration(decor);
-            ItemTouchHelper.Callback callback =
-                    new ItemTouchHelperCallback(adapter);
-            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-            touchHelper.attachToRecyclerView(walletView);
-            adapter.addHelper(touchHelper);
-        }
+        LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
+        adapter = new LoginRecyclerAdapter(walletView, cards);
+        walletView.setAdapter(adapter);
+        adapter.onAttachedToRecyclerView(walletView);
+        walletView.setLayoutManager(linearlayout);
+        walletView.setHasFixedSize(true);
+        DividerItemDecoration decor = new DividerItemDecoration(walletView.getContext(), linearlayout.getOrientation());
+        walletView.addItemDecoration(decor);
+        ItemTouchHelper.Callback callback =
+                new ItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(walletView);
+        adapter.addHelper(touchHelper);
     }
 }

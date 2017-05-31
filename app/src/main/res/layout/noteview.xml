@@ -17,7 +17,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/creditcard" />
+                    android:src="@drawable/stick_note" />
                 <TextView
                     android:id="@+id/noteName"
                     android:layout_width="wrap_content"
@@ -26,14 +26,15 @@
                     android:layout_alignTop="@+id/blankCard"
                     android:layout_alignRight="@+id/blankCard"
                     android:layout_alignBottom="@+id/blankCard"
-                    android:layout_marginTop="30dp"
-                    android:textSize="30sp"
-                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"
+                    android:textSize="40sp"
+                    android:gravity="center"
                     android:text="Justin Han"/>
             </RelativeLayout>
             <LinearLayout
                 android:visibility="gone"
                 android:orientation="vertical"
+                android:background="@color/yellow"
                 android:id="@+id/descriptView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -44,6 +45,7 @@
                     android:layout_height="wrap_content">
                     <ImageButton
                         android:id="@+id/deleteButton"
+                        android:background="@color/yellow"
                         android:src="@drawable/ic_delete_black_24dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -52,18 +54,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <ImageButton
-                        android:id="@+id/editButton"
-                        android:src="@drawable/ic_mode_edit_black_24dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            android:id="@+id/editButton"
+                            android:background="@color/yellow"
+                            android:src="@drawable/ic_mode_edit_black_24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                         <ImageButton
                             android:visibility="gone"
+                            android:background="@color/yellow"
                             android:src="@drawable/ic_check_black_24dp"
                             android:id="@+id/checkButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <ImageButton
                             android:visibility="gone"
+                            android:background="@color/yellow"
                             android:src="@drawable/ic_cancel_black_24dp"
                             android:id="@+id/cancelButton"
                             android:layout_width="wrap_content"

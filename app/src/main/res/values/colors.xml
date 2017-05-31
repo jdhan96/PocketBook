@@ -6,4 +6,7 @@
     <color name="white">#ffffff</color>
     <color name ="backGround">#5B59D8</color>
     <color name="iconTint">#59C7D8</color>
+    <color name="yellow">#ffffa8</color>
+    <color name="gray">#dbdbd9</color>
+    <color name="torquiose">#8ae2d8</color>
 </resources>

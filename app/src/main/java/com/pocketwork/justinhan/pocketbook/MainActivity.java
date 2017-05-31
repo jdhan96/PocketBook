@@ -12,13 +12,15 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
+import com.pocketwork.justinhan.pocketbook.Fragment.CloudLoginFragment;
 import com.pocketwork.justinhan.pocketbook.Fragment.CreditCardFragment;
+import com.pocketwork.justinhan.pocketbook.Fragment.FragmentInterface;
 import com.pocketwork.justinhan.pocketbook.Fragment.LoginFragment;
 import com.pocketwork.justinhan.pocketbook.Fragment.NoteFragment;
 
 import butterknife.BindView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements FragmentInterface{
     private int mSelectedItem;
     private FragmentTransaction transaction;
     private CreditCardFragment frag1;
@@ -45,18 +47,27 @@ public class MainActivity extends AppCompatActivity{
                 case R.id.navigation_notes:
                     if(mSelectedItem == R.id.navigation_cards) {
                         transaction.setCustomAnimations(R.animator.enter, R.animator.exit);
-                    } else if(mSelectedItem == R.id.navigation_logins) {
+                    } else if(mSelectedItem == R.id.navigation_logins || mSelectedItem == R.id.cloud) {
                         transaction.setCustomAnimations(R.animator.pop_enter, R.animator.pop_exit);
                     }
                     mSelectedItem = item.getItemId();
                     transaction.replace(R.id.content, frag2).commit();
                     return true;
                 case R.id.navigation_logins:
-                    if(mSelectedItem != R.id.navigation_logins) {
+                    if(mSelectedItem == R.id.navigation_cards || mSelectedItem == R.id.navigation_notes) {
                         transaction.setCustomAnimations(R.animator.enter, R.animator.exit);
+                    } else if(mSelectedItem == R.id.cloud) {
+                        transaction.setCustomAnimations(R.animator.pop_enter, R.animator.pop_exit);
                     }
                     mSelectedItem = item.getItemId();
                     transaction.replace(R.id.content, frag3).commit();
+                    return true;
+                case R.id.cloud:
+                    if(mSelectedItem != R.id.navigation_cards) {
+                        transaction.setCustomAnimations(R.animator.enter, R.animator.exit);
+                    }
+                    mSelectedItem = item.getItemId();
+                    transaction.replace(R.id.content, new CloudLoginFragment()).commit();
                     return true;
             }
             return false;
@@ -86,4 +97,10 @@ public class MainActivity extends AppCompatActivity{
         navigation.setSelectedItemId(R.id.navigation_cards);
     }
 
+    @Override
+    public void updatePaper() {
+        frag1 = new CreditCardFragment();
+        frag2 = new NoteFragment();
+        frag3 = new LoginFragment();
+    }
 }

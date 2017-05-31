@@ -83,6 +83,8 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
     }
     public void removeItem(int position) {
         cards.remove(position);
+        Paper.book().write("Notes", cards);
+
         notifyItemRemoved(position);
     }
 
@@ -102,6 +104,7 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
                 Collections.swap(cards, i, i - 1);
             }
         }
+        Paper.book().write("Notes", cards);
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -216,7 +219,7 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
                             valueAnimator.start();
                             if (toggle) {
                                 linear = (LinearLayoutManager) viewer.getLayoutManager();
-                                if (position == getItemCount() - 1) {
+                                if (position == getItemCount() - 1 && getItemCount() != 1) {
                                     linear.setStackFromEnd(true);
                                 } else {
                                     linear.setStackFromEnd(false);

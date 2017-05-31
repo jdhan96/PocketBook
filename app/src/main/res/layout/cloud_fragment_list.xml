@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@color/backGround"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload to Cloud: "/>
+        <ImageButton
+            android:id="@+id/uploadtoCloud"
+            android:layout_width="wrap_content"
+            android:background="@android:color/transparent"
+            android:tint="@color/backGround"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cloud_upload_black_24dp"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="10dp"
+        android:id="@+id/cloudList"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    <ImageButton
+        android:id="@+id/signOutButton"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_exit_to_app_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

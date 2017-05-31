@@ -7,9 +7,9 @@
     <TextView
         android:gravity="center"
         android:textSize="40sp"
-        android:text="New Login"
-        android:textColor="@color/white"
         android:background="@color/iconTint"
+        android:text="Upload to Cloud"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TableLayout
@@ -32,67 +32,17 @@
             <TextView
                 android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
+                android:textColor="@color/backGround"
                 android:layout_height="wrap_content"
-                android:text="Login Name: "/>
+                android:text="Name of BackUp: "/>
             <EditText
+                android:layout_weight="1"
                 android:id="@+id/EditCardName"
-                android:hint="Name of the Card"
                 android:inputType="text"
                 android:backgroundTint="@android:color/transparent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_weight="1"
-                android:background="#FF909090"
-                android:padding="2dip" />
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:paddingLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Login: "/>
-            <EditText
-                android:id="@+id/editLogin"
-                android:hint="ID/Email"
-                android:inputType="textEmailAddress"
-                android:backgroundTint="@android:color/transparent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dip"
-                android:layout_weight="1"
-                android:background="#FF909090"
-                android:padding="2dip" />
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:paddingLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password: "/>
-            <EditText
-                android:id="@+id/editPassword"
-                android:hint="Password"
-                android:backgroundTint="@android:color/transparent"
-                android:inputType="text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
             android:layout_width="match_parent"

@@ -81,6 +81,8 @@ public class LoginRecyclerAdapter extends RecyclerView.Adapter<LoginRecyclerAdap
     }
     public void removeItem(int position) {
         cards.remove(position);
+        Paper.book().write("Logins", cards);
+
         notifyItemRemoved(position);
     }
 
@@ -100,6 +102,7 @@ public class LoginRecyclerAdapter extends RecyclerView.Adapter<LoginRecyclerAdap
                 Collections.swap(cards, i, i - 1);
             }
         }
+        Paper.book().write("Logins", cards);
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -216,7 +219,7 @@ public class LoginRecyclerAdapter extends RecyclerView.Adapter<LoginRecyclerAdap
                             valueAnimator.start();
                             if (toggle) {
                                 linear = (LinearLayoutManager) viewer.getLayoutManager();
-                                if (position == getItemCount() - 1) {
+                                if (position == getItemCount() - 1 && getItemCount() != 1) {
                                     linear.setStackFromEnd(true);
                                 } else {
                                     linear.setStackFromEnd(false);

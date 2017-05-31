@@ -11,6 +11,9 @@ public class Login{
     private String login;
     private String password;
 
+    public Login() {
+
+    }
     public Login(String name, String login, String password) {
         this.name = name;
         this.login = login;

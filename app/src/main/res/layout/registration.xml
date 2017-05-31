@@ -3,7 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/title_toolbar"/>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="@color/backGround"
+        android:gravity="center"
+        android:text="Create a password"/>
     <EditText
+        android:layout_marginTop="20dp"
         android:inputType="textPassword"
         android:hint="New Password"
         android:id="@+id/newPassEditText"
@@ -20,6 +29,8 @@
     <Button
         android:id="@+id/submitPassButton"
         android:text="Submit"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/iconTint"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

@@ -2,23 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/title_toolbar"/>
     <TextView
         android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:textSize="25sp"
         android:textColor="@color/backGround"
-        android:text="Password"/>
+        android:gravity="center"
+        android:text="Create an account for the cloud"/>
     <EditText
-        android:inputType="textPassword"
-        android:hint="Password"
-        android:id="@+id/password"
+        android:layout_marginTop="20dp"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
+        android:id="@+id/newEmailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <EditText
+        android:inputType="textPassword"
+        android:hint="New Password"
+        android:id="@+id/newPassEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:inputType="textPassword"
+        android:hint="Confirm Password"
+        android:id="@+id/confirmPassEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
-        android:id="@+id/loginSubmit"
+        android:id="@+id/submitPassButton"
         android:text="Submit"
         android:textColor="@color/white"
         android:backgroundTint="@color/iconTint"

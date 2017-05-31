@@ -73,7 +73,6 @@ public class CreditCardFragment extends Fragment {
         final EditText Name = (EditText) dialog.findViewById(R.id.EditCardUser);
         final EditText cardNum = (EditText) dialog.findViewById(R.id.EditCardNum);
         final EditText securityCode = (EditText) dialog.findViewById(R.id.EditSecurityCode);
-        final EditText zipCode = (EditText) dialog.findViewById(R.id.EditZipCode);
         final EditText month = (EditText) dialog.findViewById(R.id.EditMonth);
         final EditText year = (EditText) dialog.findViewById(R.id.EditYear);
 
@@ -110,25 +109,16 @@ public class CreditCardFragment extends Fragment {
                 String user = Name.getText().toString();
                 String num = cardNum.getText().toString();
                 String security = securityCode.getText().toString();
-                String zip = zipCode.getText().toString();
                 String mon = month.getText().toString();
                 String yr = year.getText().toString();
 
                 if(!name.equals("") && !user.equals("") &&
-                        !num.equals("") && !security.equals("") &&
-                        !zip.equals("") && !mon.equals("") &&
+                        !num.equals("") && !security.equals("")
+                        && !mon.equals("") &&
                         !yr.equals("")) {
                     if(num.length() == 16) {
-                        if(adapter == null) {
-                            List<CreditCard> cards = new ArrayList<>();
-                            cards.add(new CreditCard(name,user, Integer.parseInt(mon), Integer.parseInt(yr), num,
-                                    Integer.parseInt(security), Integer.parseInt(zip)));
-                            Paper.book().write("creditCards", cards);
-                            initData();
-                        } else {
-                            adapter.addItem(new CreditCard(name,user, Integer.parseInt(mon), Integer.parseInt(yr), num,
-                                    Integer.parseInt(security), Integer.parseInt(zip)));
-                        }
+                        adapter.addItem(new CreditCard(name,user, Integer.parseInt(mon), Integer.parseInt(yr), num,
+                                    Integer.parseInt(security)));
                         dialog.dismiss();
                     } else {
                         Toast.makeText(v.getContext(), "The length of the card number has to equal 16!!!", Toast.LENGTH_SHORT).show();
@@ -154,9 +144,6 @@ public class CreditCardFragment extends Fragment {
                     if(TextUtils.isEmpty(security)) {
                         securityCode.setError("Required");
                     }
-                    if(TextUtils.isEmpty(zip)) {
-                        zipCode.setError("Required");
-                    }
                 }
             }
         });
@@ -176,22 +163,20 @@ public class CreditCardFragment extends Fragment {
     }
 
     private void initData() {
-        List<CreditCard> cards = Paper.book().read("creditCards");
+        List<CreditCard> cards = Paper.book().read("creditCards", new ArrayList<CreditCard>());
 
-        if(cards != null) {
-            LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
-            adapter = new CreditRecyclerAdapter(walletView, cards, getActivity());
-            walletView.setAdapter(adapter);
-            adapter.onAttachedToRecyclerView(walletView);
-            walletView.setLayoutManager(linearlayout);
-            walletView.setHasFixedSize(true);
-            DividerItemDecoration decor = new DividerItemDecoration(walletView.getContext(), linearlayout.getOrientation());
-            walletView.addItemDecoration(decor);
-            ItemTouchHelper.Callback callback =
-                    new ItemTouchHelperCallback(adapter);
-            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-            touchHelper.attachToRecyclerView(walletView);
-            adapter.addHelper(touchHelper);
-        }
+        LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
+        adapter = new CreditRecyclerAdapter(walletView, cards, getActivity());
+        walletView.setAdapter(adapter);
+        adapter.onAttachedToRecyclerView(walletView);
+        walletView.setLayoutManager(linearlayout);
+        walletView.setHasFixedSize(true);
+        DividerItemDecoration decor = new DividerItemDecoration(walletView.getContext(), linearlayout.getOrientation());
+        walletView.addItemDecoration(decor);
+        ItemTouchHelper.Callback callback =
+                new ItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(walletView);
+        adapter.addHelper(touchHelper);
     }
 }

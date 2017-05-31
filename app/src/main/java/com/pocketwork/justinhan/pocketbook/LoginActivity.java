@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(myIntent);
         } else {
             Password.setError("Incorrect!");
+            Password.setText("");
         }
     }
 }

@@ -82,14 +82,7 @@ public class NoteFragment extends Fragment {
                 String user = Name.getText().toString();
 
                 if(!name.equals("") && !user.equals("")) {
-                    if(adapter == null) {
-                        List<Note> cards = new ArrayList<>();
-                        cards.add(new Note(name, user));
-                        Paper.book().write("Notes", cards);
-                        initData();
-                    } else {
-                        adapter.addItem(new Note(name, user));
-                    }
+                    adapter.addItem(new Note(name, user));
                     dialog.dismiss();
                 } else {
                     Toast.makeText(v.getContext(), "Make sure all fields are entered!!!", Toast.LENGTH_SHORT).show();
@@ -119,22 +112,21 @@ public class NoteFragment extends Fragment {
 
 
     private void initData() {
-        List<Note> cards = Paper.book().read("Notes");
+        List<Note> cards = Paper.book().read("Notes", new ArrayList<Note>());
 
-        if(cards != null) {
-            LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
-            adapter = new NoteRecyclerAdapter(walletView, cards);
-            walletView.setAdapter(adapter);
-            adapter.onAttachedToRecyclerView(walletView);
-            walletView.setLayoutManager(linearlayout);
-            walletView.setHasFixedSize(true);
-            DividerItemDecoration decor = new DividerItemDecoration(walletView.getContext(), linearlayout.getOrientation());
-            walletView.addItemDecoration(decor);
-            ItemTouchHelper.Callback callback =
-                    new ItemTouchHelperCallback(adapter);
-            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-            touchHelper.attachToRecyclerView(walletView);
-            adapter.addHelper(touchHelper);
-        }
+        LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
+        adapter = new NoteRecyclerAdapter(walletView, cards);
+        walletView.setAdapter(adapter);
+        adapter.onAttachedToRecyclerView(walletView);
+        walletView.setLayoutManager(linearlayout);
+        walletView.setHasFixedSize(true);
+        DividerItemDecoration decor = new DividerItemDecoration(walletView.getContext(), linearlayout.getOrientation());
+        walletView.addItemDecoration(decor);
+        ItemTouchHelper.Callback callback =
+                new ItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(walletView);
+        adapter.addHelper(touchHelper);
+
     }
 }

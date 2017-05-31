@@ -14,23 +14,17 @@ public class CreditCard{
     private int year;
     private String cardNum;
     private int securityCode;
-    private int zipCode;
 
-    public CreditCard(String nameonCard, String name, int month, int year, String cardNum, int securityCode, int zipCode) {
+    public CreditCard() {
+
+    }
+    public CreditCard(String nameonCard, String name, int month, int year, String cardNum, int securityCode) {
         this.nameonCard = nameonCard;
         this.name = name;
         this.month = month;
         this.year = year;
         this.cardNum = cardNum;
         this.securityCode = securityCode;
-        this.zipCode = zipCode;
-    }
-    public int getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(int zipCode) {
-        this.zipCode = zipCode;
     }
     public String getName() {
         return name;
