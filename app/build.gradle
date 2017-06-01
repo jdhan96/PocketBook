@@ -4,8 +4,8 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.pocketwork.justinhan.pocketbook"
-        minSdkVersion 21
+        applicationId "com.pocketwork.justinhan.PocketBook"
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

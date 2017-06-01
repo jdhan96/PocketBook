@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pocketwork.justinhan.pocketbook">
+    package="com.pocketwork.justinhan.PocketBook">
 
     <application
-        android:name=".FirstApplication"
+        android:name="com.pocketwork.justinhan.PocketBook.FirstApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/pb_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/pb_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".MainActivity">
+            android:name="com.pocketwork.justinhan.PocketBook.MainActivity">
         </activity>
         <activity
-            android:name=".LoginActivity">
+            android:name="com.pocketwork.justinhan.PocketBook.LoginActivity">
         </activity>
         <activity
-            android:name=".PasswordRegistration">
+            android:name="com.pocketwork.justinhan.PocketBook.PasswordRegistration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
