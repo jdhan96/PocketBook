@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.scottyab.aescrypt.AESCrypt;
+
+import java.security.GeneralSecurityException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,10 +48,16 @@ public class PasswordRegistration extends AppCompatActivity{
     void onClick() {
         if(checkifCompleted()) {
             if(newEditText.getText().toString().equals(confirmEditText.getText().toString())) {
-                Paper.book().write("Password", newEditText.getText().toString());
-                Paper.book().write("firstTime", true);
-                Intent myIntent = new Intent(this, LoginActivity.class);
-                startActivity(myIntent);
+                String password = newEditText.getText().toString();
+                try {
+                    String encryptedPassword = AESCrypt.encrypt(password, password);
+                    Paper.book().write("Password", encryptedPassword);
+                    Paper.book().write("firstTime", true);
+                    Intent myIntent = new Intent(this, LoginActivity.class);
+                    startActivity(myIntent);
+                }catch (GeneralSecurityException e){
+                    //handle error
+                }
             } else {
                 newEditText.setError("Incorrect!");
                 confirmEditText.setError("Incorrect!");

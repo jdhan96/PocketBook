@@ -8,15 +8,15 @@ public class CreditCard{
 
     private String nameonCard;
     private String name;
-    private int month;
-    private int year;
+    private String month;
+    private String year;
     private String cardNum;
-    private int securityCode;
+    private String securityCode;
 
     public CreditCard() {
 
     }
-    public CreditCard(String nameonCard, String name, int month, int year, String cardNum, int securityCode) {
+    public CreditCard(String nameonCard, String name, String month, String year, String cardNum, String securityCode) {
         this.nameonCard = nameonCard;
         this.name = name;
         this.month = month;
@@ -32,19 +32,19 @@ public class CreditCard{
         this.name = name;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -56,17 +56,13 @@ public class CreditCard{
         this.cardNum = cardNum;
     }
 
-    public int getSecurityCode() {
+    public String getSecurityCode() {
         return securityCode;
     }
 
-    public void setSecurityCode(int securityCode) {
+    public void setSecurityCode(String securityCode) {
         this.securityCode = securityCode;
     }
-    public String getLast4Digit() {
-        return cardNum.substring(cardNum.length()-4);
-    }
-
     public String getNameonCard() {
         return nameonCard;
     }

@@ -1,10 +1,12 @@
 package com.pocketwork.justinhan.PocketBook.Data;
 
+import java.io.Serializable;
+
 /**
  * Created by justinhan on 5/25/17.
  */
 
-public class Note{
+public class Note implements Serializable{
     private String note;
     private String name;
 

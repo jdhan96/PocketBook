@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.scottyab.aescrypt.AESCrypt;
+
+import java.security.GeneralSecurityException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,13 +38,18 @@ public class LoginActivity extends AppCompatActivity {
     }
     @OnClick(R.id.loginSubmit)
     void onClick() {
-        if(Password.getText().toString().equals(Paper.book().read("Password"))) {
-
-            Intent myIntent = new Intent(this, MainActivity.class);
-            startActivity(myIntent);
-        } else {
-            Password.setError("Incorrect!");
-            Password.setText("");
+        try {
+            String password = Password.getText().toString();
+            String messageAfterDecrypt = AESCrypt.decrypt(password, (String) Paper.book().read("Password"));
+            if(messageAfterDecrypt == password) {
+                Intent myIntent = new Intent(this, MainActivity.class);
+                startActivity(myIntent);
+            } else {
+                Password.setError("Incorrect!");
+                Password.setText("");
+            }
+        }catch (GeneralSecurityException e){
+            //handle error - could be due to incorrect password or tampered encryptedMsg
         }
     }
 }

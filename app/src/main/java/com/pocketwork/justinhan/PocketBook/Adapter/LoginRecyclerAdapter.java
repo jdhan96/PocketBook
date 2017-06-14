@@ -20,9 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pocketwork.justinhan.PocketBook.Data.Login;
+import com.pocketwork.justinhan.PocketBook.Data.Note;
 import com.pocketwork.justinhan.PocketBook.Helper.ItemTouchHelperAdapter;
 import com.pocketwork.justinhan.PocketBook.R;
+import com.scottyab.aescrypt.AESCrypt;
 
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,21 +59,37 @@ public class LoginRecyclerAdapter extends RecyclerView.Adapter<LoginRecyclerAdap
         return pvh;
     }
 
+    private Login encryptData(Login a){
+        String password = Paper.book().read("Password");
+        try {
+            a.setName(AESCrypt.encrypt(password, a.getName()));
+            a.setLogin(AESCrypt.encrypt(password, a.getLogin()));
+            a.setPassword(AESCrypt.encrypt(password, a.getPassword()));
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
 
+        return a;
+
+    }
     @Override
     public void onBindViewHolder(LoginHolder holder, int position) {
 
 
         Login card = cards.get(position);
-        holder.loginName.setText(card.getName());
-        holder.nameofCard.setText(card.getName());
-        holder.editLogin.setText(card.getLogin());
-        holder.editPassword.setText(card.getPassword());
+        try {
+            holder.loginName.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getName()));
+            holder.nameofCard.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getName()));
+            holder.editLogin.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getLogin()));
+            holder.editPassword.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getPassword()));
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
 
     }
-    public void addItem(Login card) {
+    public void addItem(Login card){
         viewer.smoothScrollToPosition(cards.size());
-        cards.add(card);
+        cards.add(encryptData(card));
         Paper.book().write("Logins", cards);
 
         notifyItemInserted(cards.size());
@@ -268,7 +287,7 @@ public class LoginRecyclerAdapter extends RecyclerView.Adapter<LoginRecyclerAdap
             notifyDataSetChanged();
         }
         @OnClick(R.id.checkButton)
-        void onConfirm() {
+        void onConfirm(){
 
             final String name = nameofCard.getText().toString();
             final String user = editLogin.getText().toString();
@@ -280,8 +299,8 @@ public class LoginRecyclerAdapter extends RecyclerView.Adapter<LoginRecyclerAdap
                     cards.get(getAdapterPosition()).setName(name);
                     cards.get(getAdapterPosition()).setLogin(user);
                     cards.get(getAdapterPosition()).setPassword(num);
-
-                    notifyDataSetChanged();
+                    cards.set(getAdapterPosition(), encryptData(cards.get(getAdapterPosition())));
+                    notifyItemChanged(getAdapterPosition());
 
                     editButton.setVisibility(View.VISIBLE);
                     checkButton.setVisibility(View.GONE);

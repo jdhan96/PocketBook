@@ -21,10 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pocketwork.justinhan.PocketBook.Data.CreditCard;
+import com.pocketwork.justinhan.PocketBook.Data.Login;
 import com.pocketwork.justinhan.PocketBook.Helper.ItemTouchHelperAdapter;
 import com.pocketwork.justinhan.PocketBook.Helper.MonthYearPicker;
 import com.pocketwork.justinhan.PocketBook.R;
+import com.scottyab.aescrypt.AESCrypt;
 
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,27 +63,48 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
         return pvh;
     }
 
+    private CreditCard encryptData(CreditCard a) {
+        String password = Paper.book().read("Password");
+        try {
+            a.setName(AESCrypt.encrypt(password, a.getName()));
+            a.setCardNum(AESCrypt.encrypt(password, a.getCardNum()));
+            a.setMonth(AESCrypt.encrypt(password, a.getMonth()));
+            a.setNameonCard(AESCrypt.encrypt(password, a.getNameonCard()));
+            a.setSecurityCode(AESCrypt.encrypt(password, a.getName()));
+            a.setYear(AESCrypt.encrypt(password, a.getName()));
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
+        return a;
+
+    }
 
     @Override
     public void onBindViewHolder(CreditCardHolder holder, int position) {
 
 
         CreditCard card = cards.get(position);
-        holder.cardName.setText(card.getName());
-        holder.cardNum.setText("XXXX XXXX XXXX " + card.getLast4Digit());
+        try {
+            holder.cardName.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getName()));
+            holder.cardNum.setText("XXXX XXXX XXXX " +
+                    AESCrypt.decrypt((String) Paper.book().read("Password"), card.getCardNum()).substring(12));
 
 
-        holder.nameofCard.setText(card.getName());
-        holder.nameonCard.setText(card.getNameonCard());
-        holder.cardNumber.setText(card.getCardNum());
-        holder.month.setText(card.getMonth() +"");
-        holder.year.setText(card.getYear() +"");
-        holder.securityCode.setText(card.getSecurityCode() +"");
+            holder.nameofCard.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getName()));
+            holder.nameonCard.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getNameonCard()));
+            holder.cardNumber.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getCardNum()));
+            holder.month.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getMonth()));
+            holder.year.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getYear()));
+            holder.securityCode.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), card.getSecurityCode()));
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
 
     }
-    public void addItem(CreditCard card) {
+    public void addItem(CreditCard card){
         viewer.smoothScrollToPosition(cards.size());
-        cards.add(card);
+        cards.add(encryptData(card));
         Paper.book().write("creditCards", cards);
 
         notifyItemInserted(cards.size());
@@ -311,7 +335,7 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
             notifyDataSetChanged();
         }
         @OnClick(R.id.checkButton)
-        void onConfirm() {
+        void onConfirm(){
 
             final String name = nameofCard.getText().toString();
             final String user = nameonCard.getText().toString();
@@ -329,12 +353,12 @@ public class CreditRecyclerAdapter extends RecyclerView.Adapter<CreditRecyclerAd
                     cards.get(getAdapterPosition()).setName(name);
                     cards.get(getAdapterPosition()).setCardNum(num);
                     cards.get(getAdapterPosition()).setNameonCard(user);
-                    cards.get(getAdapterPosition()).setMonth(Integer.parseInt(mon));
-                    cards.get(getAdapterPosition()).setYear(Integer.parseInt(yr));
-                    cards.get(getAdapterPosition()).setSecurityCode(Integer.parseInt(security));
+                    cards.get(getAdapterPosition()).setMonth(mon);
+                    cards.get(getAdapterPosition()).setYear(yr);
+                    cards.get(getAdapterPosition()).setSecurityCode(security);
+                    cards.set(getAdapterPosition(), encryptData(cards.get(getAdapterPosition())));
 
-                    notifyDataSetChanged();
-
+                    notifyItemChanged(getAdapterPosition());
                     editButton.setVisibility(View.VISIBLE);
                     checkButton.setVisibility(View.GONE);
                     cancelButton.setVisibility(View.GONE);

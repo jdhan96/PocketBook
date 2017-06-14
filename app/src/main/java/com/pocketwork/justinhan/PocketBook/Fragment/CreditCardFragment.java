@@ -115,8 +115,7 @@ public class CreditCardFragment extends Fragment {
                         && !mon.equals("") &&
                         !yr.equals("")) {
                     if(num.length() == 16) {
-                        adapter.addItem(new CreditCard(name,user, Integer.parseInt(mon), Integer.parseInt(yr), num,
-                                    Integer.parseInt(security)));
+                        adapter.addItem(new CreditCard(name,user, mon, yr, num, security));
                         dialog.dismiss();
                     } else {
                         Toast.makeText(v.getContext(), "The length of the card number has to equal 16!!!", Toast.LENGTH_SHORT).show();

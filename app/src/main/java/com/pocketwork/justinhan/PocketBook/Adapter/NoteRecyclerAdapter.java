@@ -22,7 +22,9 @@ import android.widget.Toast;
 import com.pocketwork.justinhan.PocketBook.Data.Note;
 import com.pocketwork.justinhan.PocketBook.Helper.ItemTouchHelperAdapter;
 import com.pocketwork.justinhan.PocketBook.R;
+import com.scottyab.aescrypt.AESCrypt;
 
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,6 +48,17 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
         this.cards = cards;
     }
 
+    private Note encryptData(Note a) {
+        String password = Paper.book().read("Password");
+        try {
+            a.setName(AESCrypt.encrypt(password, a.getName()));
+            a.setNote(AESCrypt.encrypt(password, a.getNote()));
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        return a;
+
+    }
     public void addHelper(ItemTouchHelper helper) {
         this.helper = helper;
     }
@@ -62,21 +75,24 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
 
 
         Note note = cards.get(position);
-        holder.cardName.setText(note.getName());
-
-
-        holder.nameofCard.setText(note.getName());
-        holder.noteContent.setText(note.getNote());
+        try {
+            holder.cardName.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), note.getName()));
+            holder.nameofCard.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), note.getName()));
+            holder.noteContent.setText(AESCrypt.decrypt((String) Paper.book().read("Password"), note.getNote()));
+        } catch (GeneralSecurityException e) {
+        }
 
     }
     public void addItem(Note card) {
         viewer.smoothScrollToPosition(cards.size());
-        cards.add(card);
+        cards.add(encryptData(card));
+
         Paper.book().write("Notes", cards);
 
         notifyItemInserted(cards.size());
 
     }
+
     public void removeItem(int position) {
         cards.remove(position);
         Paper.book().write("Notes", cards);
@@ -276,8 +292,9 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
 
                     cards.get(getAdapterPosition()).setName(name);
                     cards.get(getAdapterPosition()).setNote(content);
+                    cards.set(getAdapterPosition(), encryptData(cards.get(getAdapterPosition())));
 
-                    notifyDataSetChanged();
+                    notifyItemChanged(getAdapterPosition());
 
                     editButton.setVisibility(View.VISIBLE);
                     checkButton.setVisibility(View.GONE);
